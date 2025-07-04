@@ -2,7 +2,6 @@
   COMMAND LINE TOOL
 </h1>
 <h2>
-  <br>
   Przypomina o:  
   <br>
   - Piciu wody  
