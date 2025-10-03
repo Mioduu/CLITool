@@ -2,13 +2,13 @@
   COMMAND LINE TOOL
 </h1>
 <h2>
-  Przypomina o:  
+  Reminds you to:  
   <br>
-  - Piciu wody  
+  - Drink water (15 Minutes)
   <br>
-  - Wyprostowaniu się  
+  - Straighten your posture (10 Minutes)
   <br>
-  - Zrobieniu przerwy na spacer  
+  - Take a break for a walk (30 Minutes)
   <br>
-  Oraz trackuje czas spędzony podczas pracy w tle  
+  And tracks the time spent working in the background  
 </h2>
