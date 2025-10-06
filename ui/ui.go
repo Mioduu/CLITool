@@ -6,6 +6,16 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
+)
+
+var (
+	cursorStyle   = lipgloss.NewStyle().Foreground(lipgloss.Color("#00FFFF"))
+	selectedStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#00FF00")).Bold(true)
+	normalStyle   = lipgloss.NewStyle().Foreground(lipgloss.Color("#AAAAAA"))
+	inactiveStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#555555"))
+	titleStyle    = lipgloss.NewStyle().Foreground(lipgloss.Color("#FFB6C1")).Bold(true)
+	helpTextStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#777777"))
 )
 
 type model struct {
@@ -75,7 +85,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case "Drink water":
 				go reminders.Start(reminders.Reminder{
 					Name:     "Hydration",
-					Interval: 15 * time.Minute,
+					Interval: 15 * time.Second,
 					Message:  "Drink some water 💧",
 				})
 			case "Go for a walk":
@@ -100,23 +110,32 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
-	s := "Choose your reminders:\n\n"
+	s := titleStyle.Render("Choose your reminders:") + "\n\n"
 
 	for i, choice := range m.Choices {
 		cursor := " "
 		if m.Cursor == i {
-			cursor = ">"
+			cursor = cursorStyle.Render(">")
+		} else {
+			cursor = inactiveStyle.Render(" ")
 		}
 
 		checked := " "
 		if _, ok := m.Selected[i]; ok {
-			checked = "x"
+			checked = selectedStyle.Render("x")
 		}
 
-		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
+		var choiceText string
+		if _, ok := m.Selected[i]; ok {
+			choiceText = selectedStyle.Render(choice)
+		} else {
+			choiceText = normalStyle.Render(choice)
+		}
+
+		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choiceText)
 	}
 
-	s += "\nPress space or enter to select | q to Quit.\n"
+	s += "\n" + helpTextStyle.Render("Press space or enter to select | q to Quit.\n")
 	return s
 }
 
